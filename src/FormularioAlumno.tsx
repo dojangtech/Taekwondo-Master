@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,16 @@ import {
 } from 'react-native';
 import { Alumno } from './types';
 import { CINTURONES } from './cinturones';
+import { SelectorFecha } from './SelectorFecha';
 
 type Props = {
   inicial?: Partial<Alumno>;
   onGuardar: (datos: Omit<Alumno, 'id'>) => void;
   onEliminar?: () => void;
+  encabezado?: ReactNode;
 };
 
-export function FormularioAlumno({ inicial, onGuardar, onEliminar }: Props) {
+export function FormularioAlumno({ inicial, onGuardar, onEliminar, encabezado }: Props) {
   const [nombre, setNombre] = useState(inicial?.nombre ?? '');
   const [cinturonId, setCinturonId] = useState(inicial?.cinturonId ?? CINTURONES[0].id);
   const [fechaIngreso, setFechaIngreso] = useState(
@@ -33,6 +35,7 @@ export function FormularioAlumno({ inicial, onGuardar, onEliminar }: Props) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {encabezado}
       <Text style={styles.label}>Nombre</Text>
       <TextInput
         style={styles.input}
@@ -42,13 +45,8 @@ export function FormularioAlumno({ inicial, onGuardar, onEliminar }: Props) {
         autoFocus={!inicial}
       />
 
-      <Text style={styles.label}>Fecha de ingreso (YYYY-MM-DD)</Text>
-      <TextInput
-        style={styles.input}
-        value={fechaIngreso}
-        onChangeText={setFechaIngreso}
-        placeholder="2026-04-20"
-      />
+      <Text style={styles.label}>Fecha de ingreso</Text>
+      <SelectorFecha value={fechaIngreso} onChange={setFechaIngreso} />
 
       <Text style={styles.label}>Cinturón</Text>
       <View style={styles.lista}>

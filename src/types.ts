@@ -5,3 +5,10 @@ export type Alumno = {
   fechaIngreso: string;
   notas?: string;
 };
+
+export type Clase = {
+  id: string;
+  fecha: string;
+  presentes: string[];
+  notas?: string;
+};
